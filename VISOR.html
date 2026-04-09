@@ -8,7 +8,6 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
-        <link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
@@ -26,14 +25,13 @@
     </head>
     <body>
 
-    <img id="logo" src="img/FINAL.png">
+<img id="logo" src="img/FINAL.png">
 
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
-        <script src="js/L.Control.Locate.min.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -60,11 +58,10 @@
                 fillOpacity: 1
               });
             }
-            highlightLayer.openPopup();
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[9.946895366256479,-84.07620052771931],[9.947682481841582,-84.07507483652873]]);
+        }).fitBounds([[9.946994017827826,-84.07607948353188],[9.947548862708553,-84.07528597377036]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -142,7 +139,6 @@
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
-        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var measureControl = new L.Control.Measure({
             position: 'topleft',
             primaryLengthUnit: 'meters',
@@ -216,13 +212,6 @@
                             e.target._eventParents[i].resetStyle(e.target);
                         }
                     }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
                 },
                 mouseover: highlightFeature,
             });
@@ -266,6 +255,10 @@
                     <tr>\
                         <th scope="row">VALOR</th>\
                         <td class="visible-with-data" id="VALOR">' + (feature.properties['VALOR'] !== null ? autolinker.link(String(feature.properties['VALOR']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CARPETA</th>\
+                        <td class="visible-with-data" id="CARPETA">' + (feature.properties['CARPETA'] !== null ? autolinker.link(String(feature.properties['CARPETA']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -357,7 +350,7 @@
         });
         var overlaysTree = [
             {label: '<img src="legend/MOSAICO_PLANOS_4.png" /> MOSAICO_PLANOS', layer: layer_MOSAICO_PLANOS_4},
-        {label: '<b>CAPAS BASE</b>', collapsed: true, selectAllCheckbox: true, children: [
+        {label: '<b>CAPAS BASE</b>',  selectAllCheckbox: true, children: [
             {label: "ESRI Satellite (ArcGIS/World_Imagery)", layer: layer_ESRISatelliteArcGISWorld_Imagery_3},
             {label: "GOOGLE SATELLITE", layer: layer_GOOGLESATELLITE_2},
             {label: "GOOGLE MAPS1", layer: layer_GOOGLEMAPS1_1},
